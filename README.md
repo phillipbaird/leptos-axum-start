@@ -15,13 +15,7 @@ A template for creating a hydrating web application using [Leptos](https://githu
 
 ## Current Issue - i.e. this is a work in progress.
 
-There may be a file watch problem between Tailwind and cargo-leptos.
-Either;
-- saving a .rs file triggers an asset redeploy after Tailwind rebuild but server rebuild is not triggered
-_or_
-- saving a .rs file triggers a server rebuild but does redeploy the css in the asssets folder.
-_or_
-- it all works as expected
+There appears to be a build problem in cargo-leptos when used with Tailwind in _watch_ mode.
 
 ## Usage
 
