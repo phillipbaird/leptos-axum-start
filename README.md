@@ -4,18 +4,14 @@ A template for creating a hydrating web application using [Leptos](https://githu
 
 ## Prerequisites
 
-- [cargo-leptos](https://github.com/leptos-rs/cargo-leptos)
+- [cargo-leptos](https://github.com/leptos-rs/cargo-leptos) - version 0.1.5 or higher
 - [Tailwind CSS](https://tailwindcss.com) or [Tailwind CSS binary](https://github.com/tailwindlabs/tailwindcss/releases)
 - On Linux I'm using [Mold](https://github.com/rui314/mold) for linking.  If this is not your jam then delete the `./cargo/config.toml` file to revert to the standard linker.
 - This template assumes a nightly Rust toolchain.
 
-## Warning
+## Warnings
 
 - Leptos is under rapid development so this project currently takes leptos dependencies from git rather than crates.io.
-
-## Current Issue - i.e. this is a work in progress.
-
-There appears to be a build problem in cargo-leptos when used with Tailwind in _watch_ mode.
 
 ## Usage
 
