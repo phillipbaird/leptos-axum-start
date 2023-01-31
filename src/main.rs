@@ -5,7 +5,7 @@ cfg_if! {
         use project::app::*;
         use project::fallback::file_and_error_handler;
 
-        use axum::{extract::Extension, routing::get, Router};
+        use axum::{extract::Extension, routing::{get, post}, Router};
         use leptos::*;
         use leptos_axum::{generate_route_list, LeptosRoutes};
         use std::sync::Arc;
@@ -34,6 +34,7 @@ cfg_if! {
             let leptos_options = conf.leptos_options;
             let app = Router::new()
                 .route("/favicon.ico", get(file_and_error_handler))
+                .route("/api/*fn_name", post(leptos_axum::handle_server_fns))
                 .leptos_routes(leptos_options.clone(), routes, app)
                 .fallback(file_and_error_handler)
                 .layer(Extension(Arc::new(leptos_options)));
