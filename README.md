@@ -1,6 +1,6 @@
 # Leptos-Axum-Start
 
-A template for creating a hydrating web application using [Leptos](https://github.com/leptos-rs/leptos), [Axum](https://github.com/tokio-rs/axum) and [Tailwind CSS](https://tailwindcss.com) with a workspace project layout.
+A template for creating a hydrating web application using [Leptos](https://github.com/leptos-rs/leptos), [Axum](https://github.com/tokio-rs/axum) and [Tailwind CSS](https://tailwindcss.com).
 
 ## Prerequisites
 
@@ -34,4 +34,4 @@ cargo leptos build
 
 # References
 
-This template is based on [cargo-leptos workspace](https://github.com/leptos-rs/cargo-leptos/tree/main/examples/workspace) & [leptos hackernews-axum](https://github.com/leptos-rs/leptos/tree/main/examples/hackernews_axum) examples.
+This template is based on [cargo-leptos example project](https://github.com/leptos-rs/cargo-leptos/tree/main/examples/project) & [leptos hackernews-axum](https://github.com/leptos-rs/leptos/tree/main/examples/hackernews_axum) examples.

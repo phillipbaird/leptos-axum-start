@@ -1,27 +1,113 @@
-[workspace]
-members = ["app", "front", "server", "server-api"]
+[package]
+name = "project"
+version = "0.1.0"
+edition = "2021"
 
-# need to be applied only to wasm build
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+
+[dependencies]
+leptos = { git = "https://github.com/leptos-rs/leptos.git", default-features = false, features = [
+  "stable",
+] }
+leptos_meta = { git = "https://github.com/leptos-rs/leptos.git", default-features = false }
+leptos_router = { git = "https://github.com/leptos-rs/leptos.git", default-features = false, features = [
+  "stable",
+] }
+leptos_dom = { git = "https://github.com/leptos-rs/leptos.git", default-features = false }
+
+
+gloo-net = { version = "0.2.5", features = ["http"] }
+log = "0.4.17"
+cfg-if = "1.0.0"
+serde = { version = "1", features = ["derive"] }
+
+# dependecies for client (enable hydrate set)
+wasm-bindgen = { version = "0.2.83", optional = true }
+console_log = { version = "0.2.0", optional = true }
+console_error_panic_hook = { version = "0.1.7", optional = true }
+
+# dependecies for server (enable when ssr set)
+axum = { version = "0.6", optional = true }
+dotenvy = { version = "0.15.6", optional = true }
+futures = { version = "0.3.25", optional = true }
+leptos_axum = { git = "https://github.com/leptos-rs/leptos.git", optional = true }
+tokio = { version = "1.22.0", features = ["full"], optional = true }
+tower = { version = "0.4.13", optional = true }
+tower-http = { version = "0.3.4", features = ["fs"], optional = true }
+simple_logger = { version = "4.0.0", optional = true }
+# serde_json = { version = "1.0.91", optional = true }
+# reqwest = { version = "0.11.13", features = ["json"], optional = true }
+
+
 [profile.release]
 codegen-units = 1
 lto = true
 opt-level = 'z'
 
-[workspace.dependencies]
-leptos = { git = "https://github.com/leptos-rs/leptos.git", default-features = false }
-leptos_meta = { git = "https://github.com/leptos-rs/leptos.git", default-features = false }
-leptos_router = { git = "https://github.com/leptos-rs/leptos.git", default-features = false }
-leptos_dom = { git = "https://github.com/leptos-rs/leptos.git", default-features = false }
-leptos_axum = { git = "https://github.com/leptos-rs/leptos.git" }
+[features]
+default = ["ssr"]
+hydrate = [
+  "leptos/hydrate",
+  "leptos_meta/hydrate",
+  "leptos_router/hydrate",
+  "dep:wasm-bindgen",
+  "dep:console_log",
+  "dep:console_error_panic_hook",
+]
+ssr = [
+  "leptos/ssr",
+  "leptos_meta/ssr",
+  "leptos_router/ssr",
+  "dep:axum",
+  "dep:dotenvy",
+  "dep:futures",
+  "dep:leptos_axum",
+  "dep:tokio",
+  "dep:tower",
+  "dep:tower-http",
+  "dep:simple_logger",
+]
 
-# See https://github.com/akesson/cargo-leptos for documentation of all the parameters.
 
-# A leptos project defines which workspace members
-# that are used together frontend (lib) & server (bin)
-[[workspace.metadata.leptos]]
-name = "project"
-bin-package = "server-package"
-lib-package = "front-package"
-assets-dir = "assets"
-style-file = "css/main.css"
+[package.metadata.leptos]
+# The name used by wasm-bindgen/cargo-leptos for the JS/WASM bundle. Defaults to the crate name
+output-name = "project"
+# The site root folder is where cargo-leptos generate all output. WARNING: all content of this folder will be erased on a rebuild. Use it in your server setup.
 site-root = "target/site"
+# The site-root relative folder where all compiled output (JS, WASM and CSS) is written
+# Defaults to pkg
+site-pkg-dir = "pkg"
+# [Optional] The source CSS file. If it ends with .sass or .scss then it will be compiled by dart-sass into CSS. The CSS is optimized by Lightning CSS before being written to <site-root>/<site-pkg>/app.css
+style-file = "css/main.css"
+# [Optional] Files in the asset-dir will be copied to the site-root directory
+assets-dir = "assets"
+# The IP and port (ex: 127.0.0.1:3000) where the server serves the content. Use it in your server setup.
+site-address = "127.0.0.1:3000"
+# The port to use for automatic reload monitoring
+reload-port = 3001
+#  The browserlist query used for optimizing the CSS.
+browserquery = "defaults"
+# The features to use when compiling the bin target
+#
+# Optional. Can be over-ridden with the command line parameter --bin-features
+bin-features = ["ssr"]
+
+# If the --no-default-features flag should be used when compiling the bin target
+#
+# Optional. Defaults to false.
+bin-default-features = false
+
+# The features to use when compiling the lib target
+#
+# Optional. Can be over-ridden with the command line parameter --lib-features
+lib-features = ["hydrate"]
+
+# If the --no-default-features flag should be used when compiling the lib target
+#
+# Optional. Defaults to false.
+lib-default-features = false
+env = "dev"

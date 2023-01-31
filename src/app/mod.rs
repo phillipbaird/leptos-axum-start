@@ -3,8 +3,8 @@ use leptos::*;
 use leptos_meta::*;
 
 #[server(HelloWorld, "/api")]
-pub async fn server_hello_world() -> Result<(), ServerFnError> {
-    server_api::hello_world();
+pub async fn hello_world() -> Result<(), ServerFnError> {
+    crate::server::hello_world();
     Ok(())
 }
 
@@ -12,7 +12,7 @@ pub async fn server_hello_world() -> Result<(), ServerFnError> {
 pub fn App(cx: Scope) -> impl IntoView {
     provide_meta_context(cx);
 
-    let hello_world = create_action(cx, |_| server_hello_world());
+    let hello_world = create_action(cx, |_| hello_world());
 
     view! {
         cx,
