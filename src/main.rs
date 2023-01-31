@@ -1,30 +1,31 @@
 use cfg_if::cfg_if;
 
-fn app(cx: leptos::Scope) -> impl IntoView {
-    use project::app::*;
-
-    view! { cx, <App /> }
-}
-
 cfg_if! {
     if #[cfg(feature = "ssr")] {
+        use project::app::*;
         use project::fallback::file_and_error_handler;
-        use std::sync::Arc;
 
         use axum::{extract::Extension, routing::get, Router};
         use leptos::*;
         use leptos_axum::{generate_route_list, LeptosRoutes};
+        use std::sync::Arc;
+
+        fn app(cx: leptos::Scope) -> impl IntoView {
+          view! { cx, <App /> }
+        }
 
         #[tokio::main]
         async fn main() {
             _ = dotenvy::dotenv();
+
+            simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 
             let conf = get_configuration(None).await.unwrap();
             let addr = conf.leptos_options.site_address;
 
             log::info!("serving at {addr}");
 
-            project::app::register_server_functions();
+            register_server_functions();
 
             // Generate the list of routes in your Leptos App
             let routes = generate_route_list(app).await;

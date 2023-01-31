@@ -4,6 +4,7 @@ use leptos_meta::*;
 
 #[server(HelloWorld, "/api")]
 pub async fn hello_world() -> Result<(), ServerFnError> {
+    // Call the server internals.
     crate::server::hello_world();
     Ok(())
 }
@@ -31,9 +32,9 @@ pub fn App(cx: Scope) -> impl IntoView {
 }
 
 cfg_if! {
-  if #[cfg(feature = "ssr")] {
-      pub fn register_server_functions() {
-          _ = HelloWorld::register();
-      }
-  }
+    if #[cfg(feature = "ssr")] {
+        pub fn register_server_functions() {
+            _ = HelloWorld::register();
+        }
+    }
 }
