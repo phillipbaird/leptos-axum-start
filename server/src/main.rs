@@ -24,6 +24,8 @@ async fn main() {
 
     log::info!("serving at {addr}");
 
+    app_package::register_server_functions();
+
     // Generate the list of routes in your Leptos App
     let routes = generate_route_list(app).await;
 
@@ -31,7 +33,6 @@ async fn main() {
     let leptos_options = conf.leptos_options;
     let app = Router::new()
         .route("/favicon.ico", get(file_and_error_handler))
-        .route("/main.css", get(file_and_error_handler))
         .leptos_routes(leptos_options.clone(), routes, app)
         .fallback(file_and_error_handler)
         .layer(Extension(Arc::new(leptos_options)));

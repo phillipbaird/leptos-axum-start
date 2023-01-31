@@ -8,8 +8,11 @@ edition = "2021"
 [dependencies]
 leptos = { workspace = true, features = ["serde"] }
 leptos_meta = { workspace = true }
+server-api = { path="../server-api", optional=true }
+serde = { version = "1", features = ["derive"] }
+cfg-if = "1"
 
 [features]
 default = ["hydrate"]
 hydrate = ["leptos/hydrate", "leptos_meta/hydrate"]
-ssr = ["leptos/ssr", "leptos_meta/ssr"]
+ssr = ["leptos/ssr", "leptos_meta/ssr", "dep:server-api"]

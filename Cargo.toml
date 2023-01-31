@@ -1,5 +1,5 @@
 [workspace]
-members = ["app", "front", "server"]
+members = ["app", "front", "server", "server-api"]
 
 # need to be applied only to wasm build
 [profile.release]
