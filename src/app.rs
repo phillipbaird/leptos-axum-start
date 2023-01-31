@@ -18,7 +18,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     view! {
         cx,
         <Stylesheet id="leptos" href="pkg/project.css"/>
-        <Title text="Cargo Leptos Workspace" />
+        <Title text="Leptos Axum Tailwind starter" />
         <div class="flex flex-col bg-green-300 py-32 space-y-8">
             <h1 class="text-3xl text-center">"Hi from your Leptos app with Tailwind!"</h1>
             <button
