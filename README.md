@@ -6,7 +6,7 @@ A template for creating a hydrating web application using [Leptos](https://githu
 
 - [cargo-leptos](https://github.com/leptos-rs/cargo-leptos) - version 0.1.5 or higher
 - [Tailwind CSS](https://tailwindcss.com) or [Tailwind CSS binary](https://github.com/tailwindlabs/tailwindcss/releases)
-- On Linux I'm using [Mold](https://github.com/rui314/mold) for linking.  If this is not your jam then delete the `./cargo/config.toml` file to revert to the standard linker.
+- If you want to use [Mold](https://github.com/rui314/mold) for faster linking on Linux then rename `./cargo/mold_config.toml` to `./cargo/config.toml`.
 - This template assumes a nightly Rust toolchain.
 
 ## Warnings
