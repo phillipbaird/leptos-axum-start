@@ -21,7 +21,7 @@ cfg_if! {
             simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 
             let conf = get_configuration(None).await.unwrap();
-            let addr = conf.leptos_options.site_address;
+            let addr = conf.leptos_options.site_addr;
 
             log::info!("serving at {addr}");
 
