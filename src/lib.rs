@@ -1,6 +1,8 @@
-pub mod app;
-
 use cfg_if::cfg_if;
+pub mod app;
+pub mod error_template;
+pub mod fileserv;
+pub mod server;
 
 cfg_if! {
     if #[cfg(feature = "hydrate")] {
@@ -13,19 +15,9 @@ cfg_if! {
             console_error_panic_hook::set_once();
             _ = console_log::init_with_level(log::Level::Debug);
 
-            log!("hydrate mode - hydrating");
-
-            leptos::mount_to_body(|cx| {
-                view! { cx,  <App/> }
+            leptos::mount_to_body(|| {
+                view! {   <App/> }
             });
         }
-    }
-}
-
-cfg_if! {
-    if #[cfg(feature = "ssr")] {
-        pub mod error_template;
-        pub mod fallback;
-        pub mod server;
     }
 }

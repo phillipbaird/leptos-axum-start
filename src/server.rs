@@ -1,5 +1,8 @@
-// Internal server code we do not want in the ui code.
+cfg_if::cfg_if! { if #[cfg(feature = "ssr")] {
 
-pub fn hello_world() {
-    println!("Hello World!");
-}
+    // Internal server code we do not want in the ui code.
+    pub fn hello_world() {
+        println!("Hello World!");
+    }
+
+}}

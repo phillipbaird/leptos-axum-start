@@ -3,41 +3,38 @@ use cfg_if::cfg_if;
 cfg_if! {
     if #[cfg(feature = "ssr")] {
         use project::app::*;
-        use project::fallback::file_and_error_handler;
+        use project::fileserv::file_and_error_handler;
 
-        use axum::{extract::Extension, routing::{get, post}, Router};
+        use axum::{routing::post, Router};
         use leptos::*;
         use leptos_axum::{generate_route_list, LeptosRoutes};
-        use std::sync::Arc;
 
-        fn app(cx: leptos::Scope) -> impl IntoView {
-          view! { cx, <App /> }
+        fn app() -> impl IntoView {
+          view! { <App /> }
         }
 
         #[tokio::main]
         async fn main() {
-            _ = dotenvy::dotenv();
-
             simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 
+            // Setting get_configuration(None) means we'll be using cargo-leptos's env values
+            // For deployment these variables are:
+            // <https://github.com/leptos-rs/start-axum#executing-a-server-on-a-remote-machine-without-the-toolchain>
+            // Alternately a file can be specified such as Some("Cargo.toml")
+            // The file would need to be included with the executable when moved to deployment
             let conf = get_configuration(None).await.unwrap();
-            let addr = conf.leptos_options.site_addr;
-
-            log::info!("serving at {addr}");
-
-            register_server_functions();
+            let leptos_options = conf.leptos_options;
+            let addr = leptos_options.site_addr;
 
             // Generate the list of routes in your Leptos App
             let routes = generate_route_list(app).await;
 
             // build our application with a route
-            let leptos_options = conf.leptos_options;
             let app = Router::new()
-                .route("/favicon.ico", get(file_and_error_handler))
                 .route("/api/*fn_name", post(leptos_axum::handle_server_fns))
-                .leptos_routes(leptos_options.clone(), routes, app)
+                .leptos_routes(&leptos_options, routes, app)
                 .fallback(file_and_error_handler)
-                .layer(Extension(Arc::new(leptos_options)));
+                .with_state(leptos_options);
 
             // run our app with hyper
             // `axum::Server` is a re-export of `hyper::Server`
@@ -48,4 +45,12 @@ cfg_if! {
                 .unwrap();
         }
     }
+
+    else
+    {
+        pub fn main() {
+
+        }
+    }
+
 }
